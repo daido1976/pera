@@ -8,7 +8,7 @@ type Method = typeof methods[number];
 type Routes = Map<
   Method,
   {
-    path: string;
+    pattern: URLPattern;
     handler: MicroHandler;
   }[]
 >;
@@ -23,12 +23,12 @@ export class Router {
 
   register(method: Method, path: string, handler: MicroHandler) {
     const current = this.#routes.get(method) ?? [];
-    this.#routes.set(method, [...current, { path, handler }]);
+    const pattern = new URLPattern({ pathname: path });
+    this.#routes.set(method, [...current, { pattern, handler }]);
   }
 
   resolve(req: MicroRequest, res: MicroResponse): Response {
     console.debug("[DEBUG] routes: ", this.#routes);
-    const { pathname: path } = new URL(req.url);
     const method = this.#toMethod(req.method);
     const paths = this.#routes.get(method) ?? [];
 
@@ -36,8 +36,26 @@ export class Router {
       return staticHandler(req, res);
     }
 
-    const matchPath = paths.find((p) => p.path === path);
-    return matchPath ? matchPath.handler(req, res) : staticHandler(req, res);
+    const match = (
+      url: string
+    ): { handler: MicroHandler; result: URLPatternResult } | null => {
+      const m = paths.find((p) => p.pattern.test(url));
+      return m
+        ? {
+            handler: m.handler,
+            result: m.pattern.exec(url) as URLPatternResult,
+          }
+        : null;
+    };
+
+    const matchPath = match(req.url);
+    if (matchPath) {
+      req.params = matchPath.result.pathname.groups;
+      // TODO: support query
+      return matchPath.handler(req, res);
+    } else {
+      return staticHandler(req, res);
+    }
   }
 
   #toMethod(str: string): Method {

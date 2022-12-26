@@ -1,2 +1,8 @@
-// deno-lint-ignore no-empty-interface
-export interface MicroRequest extends Request {}
+export interface MicroRequest extends Request {
+  params: {
+    [key: string]: string;
+  };
+  query: {
+    [key: string]: string | string[];
+  };
+}

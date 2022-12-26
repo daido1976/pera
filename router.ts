@@ -32,30 +32,26 @@ export class Router {
     const method = this.#toMethod(req.method);
     const paths = this.#routes.get(method) ?? [];
 
-    if (paths.length === 0) {
-      return staticHandler(req, res);
-    }
+    if (paths.length === 0) return staticHandler(req, res);
 
     const match = (
       url: string
     ): { handler: MicroHandler; result: URLPatternResult } | null => {
       const m = paths.find((p) => p.pattern.test(url));
-      return m
-        ? {
-            handler: m.handler,
-            result: m.pattern.exec(url) as URLPatternResult,
-          }
-        : null;
+      if (!m) return null;
+
+      return {
+        handler: m.handler,
+        result: m.pattern.exec(url) as URLPatternResult,
+      };
     };
 
     const matchPath = match(req.url);
-    if (matchPath) {
-      req.params = matchPath.result.pathname.groups;
-      // TODO: support query
-      return matchPath.handler(req, res);
-    } else {
-      return staticHandler(req, res);
-    }
+    if (!matchPath) return staticHandler(req, res);
+
+    req.params = matchPath.result.pathname.groups;
+    // TODO: support query
+    return matchPath.handler(req, res);
   }
 
   #toMethod(str: string): Method {

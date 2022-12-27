@@ -16,9 +16,11 @@ export type MicroHandler = (req: MicroRequest, res: MicroResponse) => Response;
 
 export class Router {
   #routes: Routes;
+  #response: MicroResponse;
 
   constructor() {
     this.#routes = new Map();
+    this.#response = new MicroResponse();
   }
 
   register(method: Method, path: string, handler: MicroHandler) {
@@ -27,12 +29,13 @@ export class Router {
     this.#routes.set(method, [...current, { pattern, handler }]);
   }
 
-  resolve(req: MicroRequest, res: MicroResponse): Response {
+  resolve(rawReq: Request): Response {
     console.debug("[DEBUG] routes: ", this.#routes);
+    const req = new MicroRequest(rawReq);
     const method = this.#toMethod(req.method);
     const paths = this.#routes.get(method) ?? [];
 
-    if (paths.length === 0) return staticHandler(req, res);
+    if (paths.length === 0) return staticHandler(req, this.#response);
 
     const match = (
       url: string
@@ -47,11 +50,11 @@ export class Router {
     };
 
     const matchPath = match(req.url);
-    if (!matchPath) return staticHandler(req, res);
+    if (!matchPath) return staticHandler(req, this.#response);
 
     req.params = matchPath.result.pathname.groups;
     // TODO: support query
-    return matchPath.handler(req, res);
+    return matchPath.handler(req, this.#response);
   }
 
   #toMethod(str: string): Method {

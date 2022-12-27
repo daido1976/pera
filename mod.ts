@@ -1,18 +1,14 @@
 import { serve } from "./deps.ts";
 import { outputLog } from "./logger.ts";
-import { MicroRequest } from "./request.ts";
-import { MicroResponse } from "./response.ts";
 import { MicroHandler, Router } from "./router.ts";
 
 // TODO: supoort all HTTP methods
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
 export class App {
   #router: Router;
-  #response: MicroResponse;
 
   constructor() {
     this.#router = new Router();
-    this.#response = new MicroResponse();
   }
 
   get(path: string, handler: MicroHandler) {
@@ -36,8 +32,8 @@ export class App {
   }
 
   async run() {
-    const handler = (req: MicroRequest) => {
-      const res = this.#router.resolve(req, this.#response);
+    const handler = (req: Request) => {
+      const res = this.#router.resolve(req);
       outputLog(req, res);
       return res;
     };

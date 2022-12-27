@@ -5,11 +5,7 @@ import { MicroHandler, Router } from "./router.ts";
 // TODO: supoort all HTTP methods
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
 export class App {
-  #router: Router;
-
-  constructor() {
-    this.#router = new Router();
-  }
+  #router: Router = new Router();
 
   get(path: string, handler: MicroHandler) {
     this.#router.register("GET", path, handler);

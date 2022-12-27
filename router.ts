@@ -15,13 +15,8 @@ type Routes = Map<
 export type MicroHandler = (req: MicroRequest, res: MicroResponse) => Response;
 
 export class Router {
-  #routes: Routes;
-  #response: MicroResponse;
-
-  constructor() {
-    this.#routes = new Map();
-    this.#response = new MicroResponse();
-  }
+  #routes: Routes = new Map();
+  #response: MicroResponse = new MicroResponse();
 
   register(method: Method, path: string, handler: MicroHandler) {
     const current = this.#routes.get(method) ?? [];

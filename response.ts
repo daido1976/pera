@@ -6,7 +6,8 @@ export class MicroResponse {
   }
 
   status(status: number): MicroResponse {
-    return new MicroResponse(status);
+    this.#statusCode = status;
+    return this;
   }
 
   json(json: unknown): Response {

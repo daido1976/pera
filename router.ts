@@ -25,6 +25,7 @@ export class Router {
   }
 
   resolve(rawReq: Request): Response {
+    // TODO: debug mode only
     console.debug("[DEBUG] routes: ", this.#routes);
     const req = new MicroRequest(rawReq);
     const method = this.#toMethod(req.method);

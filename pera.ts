@@ -27,13 +27,14 @@ export class Pera {
     this.#router.register("DELETE", path, handler);
   }
 
-  async run() {
-    const handler = (req: Request) => {
-      const res = this.#router.resolve(req);
-      outputLog(req, res);
-      return res;
-    };
+  handler = (req: Request): Response => {
+    const res = this.#router.resolve(req);
+    // TODO: suppress on test
+    outputLog(req, res);
+    return res;
+  };
 
-    await serve(handler);
+  async run() {
+    await serve(this.handler);
   }
 }

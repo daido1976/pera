@@ -1,6 +1,6 @@
-import { App } from "../mod.ts";
+import { Pera } from "../mod.ts";
 
-const app = new App();
+const app = new Pera();
 
 // NOTE: public 以下のディレクトリに置いたファイルは自動でルートディレクトリ（/）にマウントされてホストされる
 app.get("/hello", (_req, res) => res.text("Hello world"));

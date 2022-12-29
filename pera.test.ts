@@ -1,6 +1,5 @@
 import { Pera } from "./pera.ts";
-import { describe, it } from "https://deno.land/std@0.170.0/testing/bdd.ts";
-import { assertEquals } from "https://deno.land/std@0.170.0/testing/asserts.ts";
+import { describe, it, assertEquals } from "./dev_deps.ts";
 
 describe("Basic", () => {
   const app = new Pera();

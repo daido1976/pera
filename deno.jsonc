@@ -1,6 +1,8 @@
 {
   "tasks": {
-    "dev": "cd examples && deno run -A --check --watch main.ts"
+    "dev": "cd examples && deno run -A --check --watch main.ts",
+    "test": "deno test -A",
+    "update:deps": "udd dev_deps.ts deps.ts "
   },
   "lock": false
 }

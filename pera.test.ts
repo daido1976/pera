@@ -9,8 +9,7 @@ describe("Basic", () => {
   app.post("/json", (_req, res) =>
     res.json({
       message: "hello",
-    })
-  );
+    }));
 
   it("should return 200 text response", async () => {
     const req = new Request("http://localhost");

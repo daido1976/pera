@@ -34,7 +34,7 @@ export class Router {
     if (paths.length === 0) return staticHandler(req, res);
 
     const match = (
-      url: string
+      url: string,
     ): { handler: MicroHandler; result: URLPatternResult } | null => {
       const m = paths.find((p) => p.pattern.test(url));
       if (!m) return null;

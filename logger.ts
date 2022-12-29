@@ -5,8 +5,8 @@ export function outputLog(req: Request, res: Response) {
   const method = req.method;
 
   console.log(
-    `${
-      format(new Date(), "yyyy-MM-dd HH:mm:ss")
-    } ${method} ${pathname} ${res.status}`,
+    `${format(new Date(), "yyyy-MM-dd HH:mm:ss")} ${method} ${pathname} ${
+      res.status
+    }`
   );
 }

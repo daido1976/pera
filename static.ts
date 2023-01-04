@@ -1,6 +1,7 @@
 import { basename, extname, join } from "./deps.ts";
 import { MicroHandler } from "./router.ts";
 
+// TODO: refactor with https://deno.land/std@0.170.0/media_types/mod.ts
 const MIME_TYPES: { [key: string]: string } = {
   default: "application/octet-stream",
   html: "text/html; charset=UTF-8",

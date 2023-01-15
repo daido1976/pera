@@ -12,7 +12,10 @@ type Routes = Map<
     handler: MicroHandler;
   }[]
 >;
-export type MicroHandler = (req: MicroRequest, res: MicroResponse) => Response;
+export type MicroHandler = (
+  req: MicroRequest,
+  res: MicroResponse
+) => Response | Promise<Response>;
 
 export class Router {
   #routes: Routes = new Map();
@@ -23,7 +26,7 @@ export class Router {
     this.#routes.set(method, [...current, { pattern, handler }]);
   }
 
-  resolve(rawReq: Request): Response {
+  resolve(rawReq: Request): Response | Promise<Response> {
     // TODO: debug mode only
     console.debug("[DEBUG] routes: ", this.#routes);
     const req = new MicroRequest(rawReq);

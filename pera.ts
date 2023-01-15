@@ -27,7 +27,7 @@ export class Pera {
     this.#router.register("DELETE", path, handler);
   }
 
-  handler = (req: Request): Response => {
+  handler = (req: Request): Response | Promise<Response> => {
     const res = this.#router.resolve(req);
     // TODO: suppress on test
     outputLog(req, res);

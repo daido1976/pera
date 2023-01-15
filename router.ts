@@ -1,5 +1,5 @@
-import { MicroRequest } from "./request.ts";
-import { MicroResponse } from "./response.ts";
+import { PeraRequest } from "./request.ts";
+import { PeraResponse } from "./response.ts";
 import { staticHandler } from "./static.ts";
 
 const methods = ["GET", "POST", "PUT", "PATCH", "DELETE"] as const;
@@ -9,18 +9,18 @@ type Routes = Map<
   Method,
   {
     pattern: URLPattern;
-    handler: MicroHandler;
+    handler: PeraHandler;
   }[]
 >;
-export type MicroHandler = (
-  req: MicroRequest,
-  res: MicroResponse
+export type PeraHandler = (
+  req: PeraRequest,
+  res: PeraResponse
 ) => Response | Promise<Response>;
 
 export class Router {
   #routes: Routes = new Map();
 
-  register(method: Method, path: string, handler: MicroHandler) {
+  register(method: Method, path: string, handler: PeraHandler) {
     const current = this.#routes.get(method) ?? [];
     const pattern = new URLPattern({ pathname: path });
     this.#routes.set(method, [...current, { pattern, handler }]);
@@ -29,8 +29,8 @@ export class Router {
   resolve(rawReq: Request): Response | Promise<Response> {
     // TODO: debug mode only
     console.debug("[DEBUG] routes: ", this.#routes);
-    const req = new MicroRequest(rawReq);
-    const res = new MicroResponse();
+    const req = new PeraRequest(rawReq);
+    const res = new PeraResponse();
     const method = this.#toMethod(req.method);
     const paths = this.#routes.get(method) ?? [];
 
@@ -38,7 +38,7 @@ export class Router {
 
     const match = (
       url: string
-    ): { handler: MicroHandler; result: URLPatternResult } | null => {
+    ): { handler: PeraHandler; result: URLPatternResult } | null => {
       const m = paths.find((p) => p.pattern.test(url));
       if (!m) return null;
 

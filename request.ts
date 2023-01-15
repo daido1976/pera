@@ -1,4 +1,4 @@
-export class MicroRequest extends Request {
+export class PeraRequest extends Request {
   params: { [key: string]: string } = {};
   query: { [key: string]: string | string[] } = {};
 

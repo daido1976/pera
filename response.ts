@@ -1,11 +1,11 @@
-export class MicroResponse {
+export class PeraResponse {
   #statusCode: number;
 
   constructor(status?: number) {
     this.#statusCode = status ?? 200;
   }
 
-  status(status: number): MicroResponse {
+  status(status: number): PeraResponse {
     this.#statusCode = status;
     return this;
   }

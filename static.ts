@@ -1,5 +1,5 @@
 import { basename, extname, join } from "./deps.ts";
-import { MicroHandler } from "./router.ts";
+import { PeraHandler } from "./router.ts";
 
 // TODO: refactor with https://deno.land/std@0.170.0/media_types/mod.ts
 const MIME_TYPES: { [key: string]: string } = {
@@ -17,7 +17,7 @@ const MIME_TYPES: { [key: string]: string } = {
 const STATIC_PATH = "./public";
 
 // TODO: http://localhost:8000/path/index.css にアクセスした時に not found にする（= /index.css の時しか返さない）
-export const staticHandler: MicroHandler = (req, res) => {
+export const staticHandler: PeraHandler = (req, res) => {
   // TODO: If it is not GET method, return early.
   const toLocalPath = (path: string) => {
     const fileName = basename(path);

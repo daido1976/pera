@@ -2,7 +2,15 @@ import { PeraRequest } from "./request.ts";
 import { PeraResponse } from "./response.ts";
 import { staticHandler } from "./static.ts";
 
-const methods = ["GET", "POST", "PUT", "PATCH", "DELETE"] as const;
+const methods = [
+  "GET",
+  "POST",
+  "PUT",
+  "PATCH",
+  "DELETE",
+  "HEAD",
+  "OPTIONS",
+] as const;
 const defaultMethod = methods[0];
 type Method = typeof methods[number];
 type Routes = Map<

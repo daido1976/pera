@@ -2,7 +2,7 @@ import { serve } from "./deps.ts";
 import { outputLog } from "./logger.ts";
 import { PeraHandler, Router } from "./router.ts";
 
-// TODO: supoort all HTTP methods
+// NOTE: Supports only commonly used HTTP methods.
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
 export class Pera {
   #router: Router = new Router();
@@ -25,6 +25,14 @@ export class Pera {
 
   delete(path: string, handler: PeraHandler) {
     this.#router.register("DELETE", path, handler);
+  }
+
+  head(path: string, handler: PeraHandler) {
+    this.#router.register("HEAD", path, handler);
+  }
+
+  options(path: string, handler: PeraHandler) {
+    this.#router.register("OPTIONS", path, handler);
   }
 
   handler = (req: Request): Response | Promise<Response> => {

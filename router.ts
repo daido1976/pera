@@ -50,7 +50,9 @@ export class Router {
     if (!matchPath) return staticHandler(req, res);
 
     req.params = matchPath.result.pathname.groups;
-    // TODO: support query
+    req.query = Object.fromEntries(
+      new URLSearchParams(matchPath.result.search.input)
+    );
     return matchPath.handler(req, res);
   }
 

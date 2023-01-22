@@ -5,6 +5,9 @@ describe("Basic", () => {
   const app = new Pera();
   app.get("/", (_req, res) => res.text("Hi"));
   app.get("/params/:id", (req, res) => res.text(`id is ${req.params.id}`));
+  app.get("/query", (req, res) =>
+    res.text(`foo is ${req.query.foo}, fizz is ${req.query.fizz}`)
+  );
   app.post("/json", async (req, res) => {
     const json: { name: string } = await req.json();
     return res.json({
@@ -26,6 +29,14 @@ describe("Basic", () => {
     assertEquals(res.status, 200);
     assertEquals(res.headers.get("Content-Type") as string, "text/plain");
     assertEquals(await res.text(), "id is 123");
+  });
+
+  it("should return 200 text response with query parameters", async () => {
+    const req = new Request("http://localhost/query?foo=bar&fizz=buzz");
+    const res = await app.handler(req);
+    assertEquals(res.status, 200);
+    assertEquals(res.headers.get("Content-Type") as string, "text/plain");
+    assertEquals(await res.text(), "foo is bar, fizz is buzz");
   });
 
   it("should return 200 JSON response", async () => {

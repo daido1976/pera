@@ -37,7 +37,7 @@ describe("Basic", () => {
     const req = new Request("http://localhost/not_found");
     const res = await app.handler(req);
     assertEquals(res.status, 404);
-    assertEquals(await res.text(), "not found");
+    assertEquals(await res.text(), "Not Found");
   });
 });
 

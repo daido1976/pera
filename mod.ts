@@ -1,1 +1,1 @@
-export { Pera } from "./pera.ts";
+export { Pera } from "./src/pera.ts";

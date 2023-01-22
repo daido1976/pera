@@ -27,8 +27,6 @@ export class Router {
   }
 
   resolve(rawReq: Request): Response | Promise<Response> {
-    // TODO: debug mode only
-    console.debug("[DEBUG] routes: ", this.#routes);
     const req = new PeraRequest(rawReq);
     const res = new PeraResponse();
     const method = this.#toMethod(req.method);

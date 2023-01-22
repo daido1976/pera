@@ -98,4 +98,8 @@ describe("RegExp", () => {
       filename: "image.png",
     });
   });
+
+  describe("Static", () => {
+    // TODO: add test
+  });
 });

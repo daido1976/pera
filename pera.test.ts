@@ -4,6 +4,7 @@ import { describe, it, assertEquals } from "./dev_deps.ts";
 describe("Basic", () => {
   const app = new Pera();
   app.get("/", (_req, res) => res.text("Hi"));
+  app.get("/params/:id", (req, res) => res.text(`id is ${req.params.id}`));
   app.post("/json", async (req, res) => {
     const json: { name: string } = await req.json();
     return res.json({
@@ -17,6 +18,14 @@ describe("Basic", () => {
     assertEquals(res.status, 200);
     assertEquals(res.headers.get("Content-Type") as string, "text/plain");
     assertEquals(await res.text(), "Hi");
+  });
+
+  it("should return 200 text response with path parameters", async () => {
+    const req = new Request("http://localhost/params/123");
+    const res = await app.handler(req);
+    assertEquals(res.status, 200);
+    assertEquals(res.headers.get("Content-Type") as string, "text/plain");
+    assertEquals(await res.text(), "id is 123");
   });
 
   it("should return 200 JSON response", async () => {

@@ -1,5 +1,5 @@
 import { serve } from "./deps.ts";
-import { outputLog } from "./logger.ts";
+import { serverLog } from "./logger.ts";
 import { PeraHandler, Router } from "./router.ts";
 
 // NOTE: Supports only commonly used HTTP methods.
@@ -37,8 +37,7 @@ export class Pera {
 
   handler = (req: Request): Response | Promise<Response> => {
     const res = this.#router.resolve(req);
-    // TODO: suppress on test
-    outputLog(req, res);
+    serverLog(req, res);
     return res;
   };
 

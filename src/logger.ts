@@ -1,6 +1,6 @@
 import { format } from "./deps.ts";
 
-export async function outputLog(
+export async function serverLog(
   req: Request,
   res: Response | Promise<Response>
 ) {
@@ -9,7 +9,7 @@ export async function outputLog(
   const response = await res;
 
   console.log(
-    `${format(new Date(), "yyyy-MM-dd HH:mm:ss")} ${method} ${pathname} ${
+    `[${format(new Date(), "yyyy-MM-dd HH:mm:ss")}] [${method}] ${pathname} ${
       response.status
     }`
   );

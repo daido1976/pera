@@ -1,18 +1,8 @@
+import { Method, toMethod } from "./method.ts";
 import { PeraRequest } from "./request.ts";
 import { PeraResponse } from "./response.ts";
 import { staticHandler } from "./static.ts";
 
-const methods = [
-  "GET",
-  "POST",
-  "PUT",
-  "PATCH",
-  "DELETE",
-  "HEAD",
-  "OPTIONS",
-] as const;
-const defaultMethod = methods[0];
-type Method = typeof methods[number];
 type Routes = Map<
   Method,
   {
@@ -37,7 +27,7 @@ export class Router {
   resolve(rawReq: Request): Response | Promise<Response> {
     const req = new PeraRequest(rawReq);
     const res = new PeraResponse();
-    const method = this.#toMethod(req.method);
+    const method = toMethod(req.method);
     const paths = this.#routes.get(method) ?? [];
 
     if (paths.length === 0) return staticHandler(req, res);
@@ -62,14 +52,5 @@ export class Router {
       new URLSearchParams(matchPath.result.search.input)
     );
     return matchPath.handler(req, res);
-  }
-
-  #toMethod(str: string): Method {
-    // See. https://zenn.dev/hokaccha/articles/a665b7406b9773
-    const isMethod = (s: string): s is Method => {
-      return methods.includes(s as Method);
-    };
-
-    return isMethod(str) ? str : defaultMethod;
   }
 }

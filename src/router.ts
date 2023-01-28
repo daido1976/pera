@@ -17,7 +17,7 @@ export type PeraHandler = (
 
 export class Router {
   #routes: Routes = new Map();
-  #static = new Static();
+  #static: Static = new Static();
 
   register(method: Method, path: string, handler: PeraHandler) {
     const current = this.#routes.get(method) ?? [];
@@ -25,8 +25,8 @@ export class Router {
     this.#routes.set(method, [...current, { pattern, handler }]);
   }
 
-  customStatic(path: string) {
-    this.#static.custom(path);
+  setStaticPath(path: string) {
+    this.#static.set(path);
   }
 
   resolve(rawReq: Request): Response | Promise<Response> {
@@ -34,8 +34,9 @@ export class Router {
     const res = new PeraResponse();
     const method = toMethod(req.method);
     const paths = this.#routes.get(method) ?? [];
+    const staticHandler = this.#static.handler;
 
-    if (paths.length === 0) return this.#static.handler(req, res);
+    if (paths.length === 0) return staticHandler(req, res);
 
     const match = (
       url: string
@@ -50,7 +51,7 @@ export class Router {
     };
 
     const matchPath = match(req.url);
-    if (!matchPath) return this.#static.handler(req, res);
+    if (!matchPath) return staticHandler(req, res);
 
     req.params = matchPath.result.pathname.groups;
     req.query = Object.fromEntries(

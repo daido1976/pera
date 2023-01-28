@@ -36,7 +36,7 @@ export class Pera {
   }
 
   static(path: string) {
-    this.#router.customStatic(path);
+    this.#router.setStaticPath(path);
   }
 
   handler = (req: Request): Response | Promise<Response> => {

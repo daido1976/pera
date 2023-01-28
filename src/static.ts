@@ -4,7 +4,7 @@ import { serveDir } from "./deps.ts";
 export class Static {
   #path = "./public";
 
-  custom(path: string) {
+  set(path: string) {
     this.#path = path;
   }
 

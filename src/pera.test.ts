@@ -1,5 +1,5 @@
 import { Pera } from "./pera.ts";
-import { describe, it, assertEquals } from "./dev_deps.ts";
+import { describe, it, assertEquals, fromFileUrl } from "./dev_deps.ts";
 
 describe("Basic", () => {
   const app = new Pera();
@@ -100,6 +100,18 @@ describe("RegExp", () => {
   });
 
   describe("Static", () => {
-    // TODO: add test
+    const app = new Pera();
+    app.static(fromFileUrl(import.meta.resolve("./fixtures")));
+
+    it("should return 200 html response", async () => {
+      const req = new Request("http://localhost");
+      const res = await app.handler(req);
+      assertEquals(res.status, 200);
+      assertEquals(
+        res.headers.get("Content-Type") as string,
+        "text/html; charset=UTF-8"
+      );
+      assertEquals(await res.text(), "<div>Hi, Static</div>\n");
+    });
   });
 });

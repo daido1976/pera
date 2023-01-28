@@ -1,7 +1,7 @@
 import { Method, toMethod } from "./method.ts";
 import { PeraRequest } from "./request.ts";
 import { PeraResponse } from "./response.ts";
-import { staticHandler } from "./static.ts";
+import { Static } from "./static.ts";
 
 type Routes = Map<
   Method,
@@ -17,11 +17,16 @@ export type PeraHandler = (
 
 export class Router {
   #routes: Routes = new Map();
+  #static = new Static();
 
   register(method: Method, path: string, handler: PeraHandler) {
     const current = this.#routes.get(method) ?? [];
     const pattern = new URLPattern({ pathname: path });
     this.#routes.set(method, [...current, { pattern, handler }]);
+  }
+
+  customStatic(path: string) {
+    this.#static.custom(path);
   }
 
   resolve(rawReq: Request): Response | Promise<Response> {
@@ -30,7 +35,7 @@ export class Router {
     const method = toMethod(req.method);
     const paths = this.#routes.get(method) ?? [];
 
-    if (paths.length === 0) return staticHandler(req, res);
+    if (paths.length === 0) return this.#static.handler(req, res);
 
     const match = (
       url: string
@@ -45,7 +50,7 @@ export class Router {
     };
 
     const matchPath = match(req.url);
-    if (!matchPath) return staticHandler(req, res);
+    if (!matchPath) return this.#static.handler(req, res);
 
     req.params = matchPath.result.pathname.groups;
     req.query = Object.fromEntries(

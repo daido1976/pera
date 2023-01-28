@@ -4,6 +4,9 @@ import { describe, it, assertEquals, fromFileUrl } from "./deps.ts";
 describe("Basic", () => {
   const app = new Pera();
   app.get("/", (_req, res) => res.text("Hi"));
+  app.get("/coffee", (_req, res) =>
+    res.status(418).text("Refuses to brew coffee")
+  );
   app.get("/params/:id", (req, res) => res.text(`id is ${req.params.id}`));
   app.get("/query", (req, res) =>
     res.text(`foo is ${req.query.foo}, fizz is ${req.query.fizz}`)
@@ -21,6 +24,14 @@ describe("Basic", () => {
     assertEquals(res.status, 200);
     assertEquals(res.headers.get("Content-Type") as string, "text/plain");
     assertEquals(await res.text(), "Hi");
+  });
+
+  it("should return any status code", async () => {
+    const req = new Request("http://localhost/coffee");
+    const res = await app.handler(req);
+    assertEquals(res.status, 418);
+    assertEquals(res.headers.get("Content-Type") as string, "text/plain");
+    assertEquals(await res.text(), "Refuses to brew coffee");
   });
 
   it("should return 200 text response with path parameters", async () => {

@@ -1,9 +1,5 @@
 export class PeraResponse {
-  #statusCode: number;
-
-  constructor(status?: number) {
-    this.#statusCode = status ?? 200;
-  }
+  #statusCode = 200;
 
   status(status: number): PeraResponse {
     this.#statusCode = status;

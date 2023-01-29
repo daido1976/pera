@@ -17,11 +17,17 @@ export type PeraHandler = (
 
 export class Router {
   #routes: Routes = new Map();
+  #static: Static = new Static();
 
   register(method: Method, path: string, handler: PeraHandler) {
     const current = this.#routes.get(method) ?? [];
     const pattern = new URLPattern({ pathname: path });
     this.#routes.set(method, [...current, { pattern, handler }]);
+  }
+
+  // TODO: Since it is unnatural for Router class to know this, it might be a good idea to consider making it middleware.
+  setStaticPath(path: string) {
+    this.#static.set(path);
   }
 
   resolve(rawReq: Request): Response | Promise<Response> {
@@ -53,12 +59,5 @@ export class Router {
       new URLSearchParams(matchPath.result.search.input)
     );
     return matchPath.handler(req, res);
-  }
-
-  // TODO: Since it is unnatural for Router class to know this, it might be a good idea to consider making it middleware.
-  #static = new Static();
-
-  setStaticPath(path: string) {
-    this.#static.set(path);
   }
 }

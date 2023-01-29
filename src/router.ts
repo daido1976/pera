@@ -26,7 +26,7 @@ export class Router {
   }
 
   // TODO: Since it is unnatural for Router class to know this, it might be a good idea to consider making it middleware.
-  setStaticPath(path: string) {
+  setCustomStatic(path: string) {
     this.#static.set(path);
   }
 

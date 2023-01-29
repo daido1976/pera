@@ -25,6 +25,7 @@ export class Router {
     this.#routes.set(method, [...current, { pattern, handler }]);
   }
 
+  // TODO: Since it is unnatural for Router class to know this, it might be a good idea to consider making it middleware.
   setStaticPath(path: string) {
     this.#static.set(path);
   }

@@ -39,7 +39,19 @@ export class Router {
 
     if (paths.length === 0) return staticHandler(req, res);
 
-    const matchPath = this.#match(paths, req.url);
+    const match = (
+      url: string
+    ): { handler: PeraHandler; result: URLPatternResult } | null => {
+      const m = paths.find((p) => p.pattern.test(url));
+      if (!m) return null;
+
+      return {
+        handler: m.handler,
+        result: m.pattern.exec(url) as URLPatternResult,
+      };
+    };
+
+    const matchPath = match(req.url);
     if (!matchPath) return staticHandler(req, res);
 
     req.params = matchPath.result.pathname.groups;
@@ -47,21 +59,5 @@ export class Router {
       new URLSearchParams(matchPath.result.search.input)
     );
     return matchPath.handler(req, res);
-  }
-
-  #match(
-    paths: {
-      pattern: URLPattern;
-      handler: PeraHandler;
-    }[],
-    url: string
-  ): { handler: PeraHandler; result: URLPatternResult } | null {
-    const m = paths.find((p) => p.pattern.test(url));
-    if (!m) return null;
-
-    return {
-      handler: m.handler,
-      result: m.pattern.exec(url) as URLPatternResult,
-    };
   }
 }

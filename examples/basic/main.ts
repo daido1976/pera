@@ -1,8 +1,8 @@
-import { Pera } from "../mod.ts";
+import { Pera } from "../../mod.ts";
 
 const app = new Pera();
 
-// NOTE: public 以下のディレクトリに置いたファイルは自動でルートディレクトリ（/）にマウントされてホストされる
+// NOTE: By default, files placed in directories under `./public` are automatically mounted and hosted in the root.
 app.get("/hello", (_req, res) => res.text("Hello world"));
 app.get("/hello/:id/*/:name", (req, res) =>
   res.text(`hello! ${req.params["id"]} ${req.params["name"]}`)

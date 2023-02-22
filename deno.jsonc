@@ -1,8 +1,11 @@
 {
   "tasks": {
-    "dev": "cd examples && deno run -A --check --watch main.ts",
+    "dev": "deno task example:basic",
     "test": "deno test -A",
-    "update:deps": "udd src/deps.ts"
+    "update:deps": "udd src/deps.ts",
+    "example:minimal": "cd examples/minimal && deno run -A --check --watch main.ts",
+    "example:basic": "cd examples/basic && deno run -A --check --watch main.ts",
+    "example:custom-static": "cd examples/custom-static && deno run -A --check --watch main.ts"
   },
   "lock": false
 }

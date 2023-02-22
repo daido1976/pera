@@ -1,3 +1,4 @@
+// TODO: Support more utility methods.(e.g. redirect/html)
 export class PeraResponse {
   #statusCode = 200;
 

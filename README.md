@@ -1,5 +1,7 @@
 # Pera
 
+[![CI](https://github.com/daido1976/pera/actions/workflows/ci.yml/badge.svg)](https://github.com/daido1976/pera/actions/workflows/ci.yml)
+
 Pera is a minimal web framework for Deno.
 
 **This project is still experimental.**

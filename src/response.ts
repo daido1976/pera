@@ -8,11 +8,7 @@ export class PeraResponse {
   }
 
   json(json: unknown): Response {
-    const headers = {
-      "Content-Type": "application/json",
-    };
-    const body = JSON.stringify(json);
-    return new Response(body, { headers, status: this.#statusCode });
+    return Response.json(json, { status: this.#statusCode });
   }
 
   text(text: string): Response {

@@ -72,6 +72,36 @@ describe("Basic", () => {
   });
 });
 
+describe("Redirect", () => {
+  const app = new Pera();
+  app.get("/redirect", (_req, res) =>
+    res.redirect("http://localhost/other_location")
+  );
+  app.get("/redirect_with_status", (_req, res) =>
+    res.status(308).redirect("http://localhost/other_location")
+  );
+
+  it("should redirect with 302 status by default", async () => {
+    const req = new Request("http://localhost/redirect");
+    const res = await app.handler(req);
+    assertEquals(res.status, 302);
+    assertEquals(
+      res.headers.get("Location") as string,
+      "http://localhost/other_location"
+    );
+  });
+
+  it("should redirect with the specified status", async () => {
+    const req = new Request("http://localhost/redirect_with_status");
+    const res = await app.handler(req);
+    assertEquals(res.status, 308);
+    assertEquals(
+      res.headers.get("Location") as string,
+      "http://localhost/other_location"
+    );
+  });
+});
+
 // See. https://developer.mozilla.org/en-US/docs/Web/API/URL_Pattern_API
 describe("RegExp", () => {
   const app = new Pera();

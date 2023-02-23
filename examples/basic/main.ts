@@ -11,5 +11,9 @@ app.get("/another", (req, res) => res.text(`url: ${req.url}`));
 app.post("/json", (_req, res) => res.json({ message: "posted" }));
 app.patch("/json", (_req, res) => res.json({ message: "patched" }));
 app.delete("/json", (_req, res) => res.json({ message: "deleted" }));
+app.get("/redirect", (_req, res) => {
+  return res.redirect("http://localhost:8000/redirected");
+});
+app.get("/redirected", (_req, res) => res.text("Redirected!"));
 
 await app.run();

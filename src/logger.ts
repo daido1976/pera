@@ -6,11 +6,11 @@ export async function serverLog(
 ) {
   const { pathname } = new URL(req.url);
   const method = req.method;
-  const response = await res;
+  const r = await res;
 
   console.log(
     `[${format(new Date(), "yyyy-MM-dd HH:mm:ss")}] [${method}] ${pathname} ${
-      response.status
+      r.status
     }`
   );
 }

@@ -1,19 +1,19 @@
-// TODO: Support more utility methods.(e.g. redirect/html)
+// TODO: Support more utility methods.
 export class PeraResponse {
-  #statusCode = 200;
+  #_status = 200;
 
   status(status: number): PeraResponse {
-    this.#statusCode = status;
+    this.#_status = status;
     return this;
   }
 
   json(json: unknown): Response {
-    return Response.json(json, { status: this.#statusCode });
+    return Response.json(json, { status: this.#_status });
   }
 
   // TODO: Currently, only absolute paths can be specified, but relative paths should be able to be specified as well.
   redirect(url: string | URL): Response {
-    const status = isRedirectStatus(this.#statusCode) ? this.#statusCode : 302;
+    const status = isRedirectStatus(this.#_status) ? this.#_status : 302;
     return Response.redirect(url, status);
   }
 
@@ -21,7 +21,7 @@ export class PeraResponse {
     const headers = {
       "Content-Type": "text/plain",
     };
-    return new Response(text, { headers, status: this.#statusCode });
+    return new Response(text, { headers, status: this.#_status });
   }
 }
 

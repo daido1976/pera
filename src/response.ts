@@ -27,5 +27,11 @@ export class PeraResponse {
 
 // See. https://github.com/denoland/deno/blob/v1.30.3/ext/fetch/23_response.js#L85-L92
 function isRedirectStatus(status: number) {
-  return [301, 302, 303, 307, 308].includes(status);
+  return (
+    status === 301 ||
+    status === 302 ||
+    status === 303 ||
+    status === 307 ||
+    status === 308
+  );
 }

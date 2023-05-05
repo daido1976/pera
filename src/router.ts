@@ -54,10 +54,17 @@ export class Router {
     const matchPath = match(req.url);
     if (!matchPath) return staticHandler(req, res);
 
-    req.params = matchPath.result.pathname.groups;
+    req.params = Object.fromEntries(
+      Object.entries(matchPath.result.pathname.groups).filter(isDefinedForEntry)
+    );
     req.query = Object.fromEntries(
       new URLSearchParams(matchPath.result.search.input)
     );
     return matchPath.handler(req, res);
   }
+}
+
+// TODO: Move to utils and test.
+function isDefinedForEntry<T>(input: [T, T | undefined]): input is [T, T] {
+  return input[1] !== undefined;
 }

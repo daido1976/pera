@@ -26,21 +26,21 @@ major=$(echo "$latest_tag" | cut -d. -f1)
 minor=$(echo "$latest_tag" | cut -d. -f2)
 patch=$(echo "$latest_tag" | cut -d. -f3)
 
-# Ask user which version part to bump: major, minor, or patch
-echo "Which version would you like to increment? (major/minor/patch)"
+# Ask user which version part to bump: x: major, y: minor, or z: patch
+echo "Which version would you like to increment? (x=major, y=minor, z=patch)"
 read -r version_part
 
 case "$version_part" in
-  major)
+  x)
     major=$((major + 1))
     minor=0
     patch=0
     ;;
-  minor)
+  y)
     minor=$((minor + 1))
     patch=0
     ;;
-  patch)
+  z)
     patch=$((patch + 1))
     ;;
   *)

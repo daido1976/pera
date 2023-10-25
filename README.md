@@ -37,6 +37,8 @@ $ deno task dev
 
 ## Deployment
 
+See. https://docs.deno.com/runtime/manual/advanced/publishing/
+
 ```sh
 $ ./scripts/semver-tag-updater.sh
 ```

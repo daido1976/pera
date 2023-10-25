@@ -35,6 +35,12 @@ See more [examples](examples).
 $ deno task dev
 ```
 
+## Deployment
+
+```sh
+$ ./scripts/semver-tag-updater.sh
+```
+
 ## License
 
 MIT

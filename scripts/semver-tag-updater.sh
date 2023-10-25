@@ -26,11 +26,31 @@ major=$(echo "$latest_tag" | cut -d. -f1)
 minor=$(echo "$latest_tag" | cut -d. -f2)
 patch=$(echo "$latest_tag" | cut -d. -f3)
 
-# Increment the patch version
-new_patch=$((patch + 1))
+# Ask user which version part to bump: major, minor, or patch
+echo "Which version would you like to increment? (major/minor/patch)"
+read -r version_part
+
+case "$version_part" in
+  major)
+    major=$((major + 1))
+    minor=0
+    patch=0
+    ;;
+  minor)
+    minor=$((minor + 1))
+    patch=0
+    ;;
+  patch)
+    patch=$((patch + 1))
+    ;;
+  *)
+    echo "Invalid choice. Aborting."
+    exit 1
+    ;;
+esac
 
 # Construct the new tag
-new_tag="${major}.${minor}.${new_patch}"
+new_tag="${major}.${minor}.${patch}"
 echo "Current tag is $latest_tag. Next tag will be $new_tag."
 read -p "Do you want to proceed? (y/n): " -r response
 

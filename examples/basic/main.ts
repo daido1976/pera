@@ -16,4 +16,4 @@ app.get("/redirect", (_req, res) => {
 });
 app.get("/redirected", (_req, res) => res.text("Redirected!"));
 
-await app.run();
+app.run();

@@ -1,4 +1,3 @@
-import { serve } from "./deps.ts";
 import { serverLog } from "./logger.ts";
 import { PeraHandler, Router } from "./router.ts";
 
@@ -45,7 +44,7 @@ export class Pera {
     return res;
   };
 
-  async run() {
-    await serve(this.handler);
+  run() {
+    return Deno.serve(this.handler);
   }
 }

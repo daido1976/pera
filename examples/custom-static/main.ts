@@ -4,4 +4,4 @@ const app = new Pera();
 
 app.static("./static");
 
-await app.run();
+app.run();

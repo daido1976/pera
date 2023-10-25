@@ -4,4 +4,4 @@ const app = new Pera();
 
 app.get("/", (_req, res) => res.text("Hi!"));
 
-await app.run();
+app.run();

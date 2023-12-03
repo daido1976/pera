@@ -1,5 +1,5 @@
 import { Pera } from "../pera.ts";
-import { describe, it, assertEquals, fromFileUrl } from "../deps.ts";
+import { describe, it, fromFileUrl, assertEquals } from "../deps.ts";
 
 describe("Basic", () => {
   const app = new Pera();

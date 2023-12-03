@@ -2,6 +2,7 @@ import { Method, toMethod } from "./method.ts";
 import { PeraRequest } from "./request.ts";
 import { PeraResponse } from "./response.ts";
 import { Static } from "./static.ts";
+import { isDefinedForEntry } from "./util.ts";
 
 type Routes = Map<
   Method,
@@ -62,9 +63,4 @@ export class Router {
     );
     return matchPath.handler(req, res);
   }
-}
-
-// TODO: Move to utils and test.
-function isDefinedForEntry<T>(input: [T, T | undefined]): input is [T, T] {
-  return input[1] !== undefined;
 }
